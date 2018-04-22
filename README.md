@@ -13,3 +13,5 @@ This repo contains my math homework for various math classes at UCLA. Most of th
 |             |                               | Copson, Metric Spaces
 | MATH 131BH  | Honors Real Analysis          | (Same as above)
 | MATH 132AH  | Honors Complex Analysis       | Marshall, Complex Analysis
+| MATH 156	  | Machine Learning			  | Bishop, Pattern Recognition and Machine Learning
+| MATH 164	  | Optimization				  | Chang, An Introduction to Optimization
