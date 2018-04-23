@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{enumitem, amsmath, amssymb, mathtools, titlesec}
+\usepackage[margin = 1in]{geometry}
+
+\titlespacing\section{0pt}{0pt}{-8pt}
+
+\newcommand{\T}{\top}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\mean}[1]{\overline{#1}}
+\newcommand{\dpd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\dpdop}[1]{\dfrac{\partial}{\partial #1}}
+\newcommand{\image}[2]{\begin{center}\includegraphics[width = #2\textwidth]{#1}\end{center}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\DeclarePairedDelimiter{\p}{(}{)}
+\DeclarePairedDelimiter{\br}{[}{]}
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\DeclarePairedDelimiter{\norm}{\Vert}{\Vert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+
+\DeclareMathOperator{\cs}{span}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\bigskipamount}
+
+\begin{document}
+
+{\huge Lab Assignment 2} \\	
+\large Steven Truong
+
+\section*{Task 1}
+Since the covariance matrix is symmetric, the eigenvectors $\vec{u}_1, \ldots, \vec{u}_d$ are orthogonal. We can also assume that they are of unit norm. Thus, they are an orthonormal basis of $\R^d$. So, for any $\vec{x}_n \in \mathcal{D}$, there exist coefficients $c_1, \ldots, c_d$ such that
+\[
+	\vec{x}_n - \mean{\vec{x}} = \sum_{i=1}^d c_i\vec{u}_i.
+\]
+Taking the inner product of this vector with $\vec{u}_j$, we get
+\[
+	\inner{\vec{x}_n - \mean{\vec{x}}, \vec{u}_j} = \sum_{i=1}^d c_i\inner{\vec{u}_i, \vec{u}_j} = c_j\norm{\vec{u}_j}^2 = c_j.
+\]
+So, we get
+\[
+	\vec{x}_n = \mean{\vec{x}} + \sum_{i=1}^d \inner{\vec{x}_n - \mean{\vec{x}}, \vec{u}_i}\vec{u}_i.
+\]
+
+\section*{Task 2}
+We can extend $\vec{v}_1, \ldots, \vec{v}_k$ into an orthonormal basis of $\R^d$.
+
+Using the same argument as in task 1, we can write any vector $\vec{x} \in \R^d$ as
+\[
+	\vec{x} = \sum_{i=1}^d \inner{\vec{x}, \vec{v}_i}\vec{v}_i = \sum_{i=1}^k \inner{\vec{x}, \vec{v}_i}\vec{v}_i + \sum_{i=k+1}^d \inner{\vec{x}, \vec{v}_i}\vec{v}_i \coloneqq \vec{x}_\parallel + \vec{x}_\bot,
+\]
+where $\vec{x}_\parallel$ is the part of $\vec{x}$ parallel to $V$, and $\vec{x}_\bot$ is the part of $\vec{x}$ orthogonal to $V$. This is easy to verify by taking inner products with $\vec{v}_1, \ldots, \vec{v}_k$.
+
+The orthogonal projection removes the orthogonal part, so we get
+\[
+	p_V\p{\vec{x}} = \vec{x}_\parallel = \sum_{i=1}^k \inner{\vec{x}, \vec{v}_i}\vec{v}_i.
+\]
+
+\section*{Task 3}
+Let
+\[
+	J_m = \frac{1}{N} \sum_{n=1}^N \norm{\hat{\vec{x}}_n - \vec{x}_n}^2,
+\]
+where $\vec{u}_n$ is a unit vector of the data covariance matrix, and
+\[
+	\hat{\vec{x}}_n = \mean{\vec{x}} + \sum_{i=1}^m \inner{\vec{x}_n - \mean{\vec{x}}, \vec{u}_i}\vec{u}_i = \mean{\vec{x}} + \sum_{i=1}^m \p{\vec{x}_n - \mean{\vec{x}}}^\T\vec{u}_i\vec{u}_i.
+\]
+If we write $\vec{x} = \sum c_i\vec{u}_i$, then by the Pythagorean theorem, $\norm{\vec{x}}^2 = \sum c_i^2$. Then
+\begin{align*}
+	\norm{\hat{\vec{x}}_n - \vec{x}_n}^2 &= \norm{\sum_{i=1}^m \inner{\vec{x}_n - \mean{\vec{x}}, \vec{u}_i}\vec{u}_i - \sum_{i=1}^d \inner{\vec{x}_n - \mean{\vec{x}}, \vec{u}_i}\vec{u}_i}^2 \\
+		&= \norm{\sum_{i=m+1}^d \inner{\vec{x}_n - \mean{\vec{x}}, \vec{u}_i}\vec{u}_i}^2 \\
+		&= \sum_{i=m+1}^d \inner{\vec{x}_n - \mean{\vec{x}}, \vec{u}_i}^2 \\
+		&= \sum_{i=m+1}^d \vec{u}_i^\T\p{\vec{x}_n - \mean{\vec{x}}}\p{\vec{x}_n - \mean{\vec{x}}}^\T\vec{u}_i.
+\end{align*}
+Then if $S$ is the data covariance matrix, we get
+\begin{align*}
+	J_m &= \frac{1}{N} \sum_{n=1}^N \norm{\hat{\vec{x}}_n - \vec{x}_n}^2 \\
+	&= \frac{1}{N} \sum_{n=1}^N \sum_{i=m+1}^d \vec{u}_i^\T\p{\vec{x}_n - \mean{\vec{x}}}\p{\vec{x}_n - \mean{\vec{x}}}^\T\vec{u}_i \\
+	&= \sum_{i=m+1}^d \vec{u}_i^\T \p*{\frac{1}{N} \sum_{n=1}^N \p{\vec{x}_n - \mean{\vec{x}}}\p{\vec{x}_n - \mean{\vec{x}}}^\T}\vec{u}_i \\
+	&= \sum_{i=m+1}^d \vec{u}_i^\T S\vec{u}_i \\
+	&= \sum_{i=m+1}^d \vec{u}_i^\T \lambda_i \vec{u}_i \\
+	&= \sum_{i=m+1}^d \lambda_i \norm{\vec{u}_i}^2 \\
+	&= \sum_{i=m+1}^d \lambda_i.
+\end{align*}
+
+\section*{Task 4}
+\image{images/eigenvalues.png}{0.65}
+There is a large drop off in the size of the eigenvalues after the first two. This tells us that the data set probably came from a subspace of $\R^{100}$ with dimension $2$, and that the smaller eigenvalues were also probably created by noise.
+
+\section*{Task 5}
+\image{images/projected-plot.png}{0.65}
+Yes, it looks like three crescent moons.
+
+\section*{Task 6}
+\image{images/rotated-image.png}{0.2}
+
+\section*{Task 7}
+The inherent dimensionality is $1$, since we only need the angle of rotation two distinguish any two images from the data set.
+
+\section*{Task 8}
+The picture vectors lie in an at most $N$-dimensional subspace of $\R^{4096}$. Namely, they live in their own span, which can have at most $N$ linearly independent vectors. So, we only need to calculate the $N$ largest eigenvalues to figure out the principal components.
+
+\section*{Task 9}
+They are circles with faint loop-looking shapes inside some of them. This makes sense since our data set was generated via rotations of the number $8$, so circular principal components with loops are not surprising.
+
+\section*{Task 10}
+It looks roughly like the original picture, but it's slightly rotated, the white pixels aren't as intense, and there are some extra faded loop. I don't think it's reasonable to project onto this subspace because the projected original image looks like one of the rotated images, which means we're unable to preserve the feature that differentiates each image from another.
+
+\section*{Task 11}
+About $10$ principal components are required before the projection looks very close to the original. This is not very surprising. Even though the inherent dimensionality of the data is $1$, it's obvious that projecting onto $1$ principal component will not give us the original image.
+
+\end{document}
