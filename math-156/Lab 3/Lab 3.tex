@@ -1,0 +1,84 @@
+\documentclass{article}
+\usepackage{enumitem, amsmath, amssymb, mathtools, titlesec, bm}
+\usepackage[margin = 1in]{geometry}
+
+\titlespacing\section{0pt}{0pt}{-8pt}
+
+\newcommand{\T}{\top}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\mean}[1]{\overline{#1}}
+\newcommand{\dpd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\dpdop}[1]{\dfrac{\partial}{\partial #1}}
+\newcommand{\image}[2]{\begin{center}\includegraphics[width = #2\textwidth]{#1}\end{center}}
+\renewcommand{\matrix}[1]{\begin{matrix} #1 \end{matrix}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\DeclarePairedDelimiter{\p}{(}{)}
+\DeclarePairedDelimiter{\br}{[}{]}
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\DeclarePairedDelimiter{\norm}{\Vert}{\Vert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+
+\DeclareMathOperator{\cs}{span}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\bigskipamount}
+
+\begin{document}
+
+{\huge Lab Assignment 3} \\	
+\large Steven Truong \\
+
+\normalsize
+
+\section*{Task 1}
+$\vec{x}$ is on the decision boundary between classes $i$ and $j$ when the $i$-th and $j$-th component of $f\p{\vec{x}, W, \vec{w}_0}$ are the same, i.e.,
+\[
+	f_i\p{\vec{x}, W, \vec{w}_0} = f_j\p{\vec{x}, W, \vec{w}_0}.
+\]
+Note that $f_i\p{\vec{x}, W, \vec{w}_0} = \vec{e}_i^\T W\vec{x}$, so the equation for the boundary is
+\[
+	\vec{e}_i^\T W\vec{x} = \vec{e}_j^\T W\vec{x}.
+\]
+where $\vec{e}_i$ is one of the canonical unit vectors.
+
+\section*{Task 2}
+Yes, it does make sense to use a linear classifier to classify this data since both data sets occupy different ``sides'' of the plane.
+
+\section*{Task 3}
+\image{images/training-data.png}{0.7}
+
+\section*{Task 4}
+\image{images/testing-data.png}{0.7}
+The classification accuracy is $99/100 = 99\%$, since it accurately classified all but one point generated from $\mathcal{N}\p{\vec{\mu}_1, \Sigma_1}$. This result makes sense, since the decision boundary separates the points nearly perfectly from our original sample.
+
+\section*{Task 5}
+\image{images/3-classes-training-data.png}{0.7}
+D1, D2, and D3 refer to class 1, class 2, and class 3, respectively. C$i,j$ is the decision boundary between classes $i$ and $j$.
+
+\section*{Task 6}
+\image{images/3-classes-testing-data.png}{0.7}
+Y1, Y2, and Y3 refer to the testing samples of class 1, class 2, and class 3, respectively. C$i,j$ is the decision boundary between classes $i$ and $j$.
+
+The classification accuracy is about $86\%$, which makes sense since in the original data, class 2 and class $3$ mixed quite a bit, so we expected the linear classifier to not perform as well for this data set compared to the $2$ class data.
+
+\section*{Task 7}
+\begin{minipage}[c]{0.5\textwidth}
+	\image{images/best-knn.png}{1}
+\end{minipage}
+\begin{minipage}[c]{0.5\textwidth}
+	\begin{center}
+		\begin{tabular}{rr}
+			Class & Correct Classifications \\\hline
+			1 & 47 \\\hline
+			2 & 43 \\\hline
+			3 & 43
+		\end{tabular}
+	\end{center}
+\end{minipage}
+$k$-nearest neighbors worked best when $k = 9$, which gave an accuracy of $88.67\%$, which is slightly better than the linear classifiers, which had an accuracy of $86\%$.
+
+This is due to the fact that $k$NN is able to classify less extreme outliers, i.e., outliers which are still not too far from the rest of its class. On the other hand, the linear classifier is unable to do so, and both classifiers are unable to classify more extreme outliers, which is why $k$NN only performs slightly better.
+
+\end{document}

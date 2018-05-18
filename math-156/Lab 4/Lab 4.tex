@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage{enumitem, amsmath, amssymb, mathtools, titlesec, bm, listings, color}
+\usepackage[margin = 1in]{geometry}
+
+\titlespacing\section{0pt}{0pt}{-8pt}
+
+\newcommand{\T}{\top}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\mean}[1]{\overline{#1}}
+\newcommand{\dpd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\dpdop}[1]{\dfrac{\partial}{\partial #1}}
+\newcommand{\image}[2]{\begin{center}\includegraphics[width = #2\textwidth]{#1}\end{center}}
+\renewcommand{\matrix}[1]{\begin{matrix} #1 \end{matrix}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\DeclarePairedDelimiter{\p}{(}{)}
+\DeclarePairedDelimiter{\br}{[}{]}
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\DeclarePairedDelimiter{\norm}{\Vert}{\Vert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+
+\DeclareMathOperator{\purity}{Purity}
+
+\DeclareMathOperator{\cs}{span}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\bigskipamount}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolor}{rgb}{1,1,1}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor = \color{backcolor},   
+    commentstyle = \color{codegreen},
+    keywordstyle = \color{magenta},
+    numberstyle = \tiny\color{codegray},
+    stringstyle = \color{codepurple},
+    basicstyle = \scriptsize,
+    breakatwhitespace = false,         
+    breaklines = true,                 
+    captionpos = b,                    
+    keepspaces = true,                 
+    numbers = left,                    
+    numbersep = 5pt,                  
+    showspaces = false,                
+    showstringspaces = false,
+    showtabs = false,                  
+    tabsize = 2
+}
+
+\begin{document}
+
+{\huge Lab Assignment 4} \\	
+\large Steven Truong \\
+
+\normalsize
+
+\section*{Task 1}
+Assume that at a given step $n$, we have $\vec{\mu}^n$ and $r^n$.
+
+In the first phase of minimizing $E\p{\vec{\mu}^n, r^n}$, for each $\vec{x}_i$ in our data set, we assign
+\[
+	r^{n+1}_{ik} =
+		\begin{cases}
+			1 & \displaystyle\text{if } k = \arg\min_{1\leq j\leq k}\norm{\vec{x}_i - \vec{\mu}_j} \\
+			0 & \text{otherwise}.
+		\end{cases}
+\]
+This clearly causes $E$ to decrease (or stay the same) because we replace the previous $\norm{\vec{x}_i - \vec{\mu}_j}$ term with the one that gives the minimum norm.
+
+In the second phase, we have $E\p{\vec{\mu}^n, r^{n+1}}$, and minimize with respect to $\vec{\mu}^n$. Since $E$ is convex as a function of $\vec{\mu}^n$, then $\vec{\mu}^{n+1}$, which gives a $0$ gradient, must be the global minimizer with our given $r^{n+1}$. Hence, in this phase, $E$ must decrease (or stay the same) also.
+
+Thus, the $k$-cluster means algorithm guarantees descent at each step.
+
+\section*{Task 2}
+In one step of the algorithm, we have to calculate all the norms between $\vec{x}_n$ and $\vec{\mu}_j$ in order to update $r$.
+
+We first have to calculate the centroids, which are given by
+\[
+	\vec{\mu}_j = \frac{\displaystyle\sum_{n=1}^N r_{nj}\vec{x}_n}{\displaystyle\sum_{n=1}^N r_{nj}}.
+\]
+So, for the $k$ classes, we have to do $N$ products, $2N$ sums, and a division, which gives us an upper bound of $k\p{3N + 1}$ steps for the calculation of the means.
+
+We then have to calculate all the norms $\norm{\vec{x}_n - \vec{\mu}_j}$, which involves $d$ subtractions, multiplications, and sums for $Nk$ pairs of $\vec{x}_n$ and $\vec{\mu}_j$, which gives us $3Ndk$ calculations to figure out how to update $r_{nj}$.
+
+So, each update has $k\p{3N + 1} + 3Ndk$ calculations total.
+
+\section*{Task 3}
+Because of symmetry, if we had $\vec{\mu}$ which gave us a minimum, we can switch around the order of the $\vec{\mu}_j$ and have the same minimum, but with class labels changed. Convex functions must only have one minimum, so if $k$ is at least $2$, then $J\p{\vec{\mu}}$ is not convex.
+
+\pagebreak
+\section*{Task 4}
+\lstinputlisting[language = Octave, style = mystyle]{scripts/turned-in-code.m}
+
+\section*{Task 5}
+On average, the Forgy method performed slightly better. Each cluster's purity for the Forgy method was larger every purity for the random partition method. 
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{r|rrr}
+		Forgy Method & $\purity\p{C_1}$ & $\purity\p{C_2}$ & $\purity\p{C_1}$ \\
+		& 0.88 & 0.88 & 0.87 \\ \\
+		Random Parition Method & $\purity\p{C_1}$ & $\purity\p{C_2}$ & $\purity\p{C_1}$ \\
+		& 0.85 & 0.82 & 0.80
+	\end{tabular}
+\end{center}
+
+\section*{Task 6}
+\image{images/projection.png}{1}
+The performance of $k$-means clustering was fairly good because the classes roughly made up different clusters. However, class 2 and class 3 mixed quite a bit, so it was more difficult to separate those two classes when clustering the data points. So, 80--90\% accuracy between the two methods on average is not surprising.
+
+\end{document}
