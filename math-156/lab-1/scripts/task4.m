@@ -1,1 +1,0 @@
-x = linspace(-pi, pi, 64);y = cos(2*x);h = figure();plot(x,y,'*');
