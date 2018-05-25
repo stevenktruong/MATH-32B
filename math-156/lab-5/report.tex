@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage{enumitem, amsmath, amssymb, mathtools, titlesec, bm, listings, color}
+\usepackage[margin = 1in]{geometry}
+
+\titlespacing\section{0pt}{0pt}{-8pt}
+
+\newcommand{\T}{\top}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+
+\newcommand{\mean}[1]{\overline{#1}}
+\newcommand{\dpd}[2]{\dfrac{\partial #1}{\partial #2}}
+\newcommand{\dpdop}[1]{\dfrac{\partial}{\partial #1}}
+\newcommand{\image}[2]{\begin{center}\includegraphics[width = #2\textwidth]{#1}\end{center}}
+\renewcommand{\matrix}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+\renewcommand{\phi}{\varphi}
+
+\DeclarePairedDelimiter{\p}{(}{)}
+\DeclarePairedDelimiter{\br}{[}{]}
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\DeclarePairedDelimiter{\norm}{\Vert}{\Vert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+
+\DeclareMathOperator{\purity}{Purity}
+
+\DeclareMathOperator{\cs}{span}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\bigskipamount}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolor}{rgb}{1,1,1}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor = \color{backcolor},   
+    commentstyle = \color{codegreen},
+    keywordstyle = \color{magenta},
+    numberstyle = \tiny\color{codegray},
+    stringstyle = \color{codepurple},
+    basicstyle = \scriptsize,
+    breakatwhitespace = false,         
+    breaklines = true,                 
+    captionpos = b,                    
+    keepspaces = true,                 
+    numbers = left,                    
+    numbersep = 5pt,                  
+    showspaces = false,                
+    showstringspaces = false,
+    showtabs = false,                  
+    tabsize = 2
+}
+
+\begin{document}
+
+{\huge Lab Assignment 5} \\	
+\large Steven Truong \\
+
+\normalsize
+
+\section*{Task 1}
+The role of the term $\dfrac{\lambda}{2}\norm{\vec{w}}^2$ is to penalize large values of $\vec{w}$. Given $\vec{w}$ which classifies the data properly, $\alpha\vec{w}$ will do the same, which means that we can have arbitrarily large values of $\vec{w}$, which is unfavorable, since large values of $\vec{w}$ give an unstable classifier.
+
+\section*{Task 2}
+If $\vec{x}_n$ is close to $\vec{x}_m$, we would want to put them in the same class. So, we want to make $k_n\p{\vec{x}} = K\p{\vec{x}_m, \vec{x}_n}$ large so that $t_n$ has the most weight in formula (2), which would more likely give us the correct classification.
+
+\section*{Task 3}
+\image{images/projection.png}{1}
+
+\pagebreak
+\section*{Task 4}
+No, I don't think there is a simple transformation $\phi$ which would transform the data set into something linearly separable. The data looks like a swirl, so we'd need to warp it into two ``lines'' by some kind of rotation-like transformation, which would not be easy.
+
+\section*{Task 5}
+\begin{align*}
+	\nabla_{\vec{w}} J\p{\vec{w}, \lambda} = \sum_{\vec{x}_n\in\C} \p{\phi\p{\vec{x}_n}^\T\vec{w} - t_n}\phi\p{\vec{x_n}} + \lambda\vec{w} &= 0 \\
+	\iff \sum_{\vec{x}_n\in\C} \phi\p{\vec{x}_n}\phi\p{\vec{x}_n}^\T\vec{w} + \lambda\vec{w} &= \sum_{\vec{x}_n\in\C} t_n\phi\p{\vec{x}_n} \\
+	\iff \p*{\lambda I_m + \sum_{\vec{x}_n\in\C} \phi\p{\vec{x}_n}\phi\p{\vec{x}_n}^\T}\vec{w} &= \sum_{\vec{x}_n\in\C} t_n\phi\p{\vec{x}_n}.
+\end{align*}
+If we define
+\begin{align*}
+	\Phi &\coloneqq \matrix{
+		\vert & & \vert \\
+		\phi\p{\vec{x}_1} & \cdots & \phi\p{\vec{x}_n} \\
+		\vert & & \vert
+	} \\
+	\vec{t} &\coloneqq \matrix{t_1\\\vdots\\t_n},
+\end{align*}
+then we can write the equation as $\p*{\Phi\Phi^\T + \lambda I_m}\vec{w} = \Phi\vec{t}$.
+\lstinputlisting[language = Octave, style = mystyle]{scripts/findCoefficient.m}
+
+\section*{Task 6}
+For very large $\lambda$ ($\sim 10^7$), the classifier maxes out with around a 73.22\% accuracy.
+
+\pagebreak
+\section*{Task 8}
+\lstinputlisting[language = Octave, style = mystyle]{scripts/kernel-classification.m}
+
+\pagebreak
+\section*{Task 9}
+Taking $\lambda = 0.1$ and $k = 8$, classification using the kernel method gives an accuracy of about 95.44\%, which is significantly better than that of the least squares classifier.
+
+\end{document}
