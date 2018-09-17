@@ -13,7 +13,7 @@ This repo contains my math homework for various math classes at UCLA. Most of th
 | MATH 131AH  | Honors Real Analysis          | Rudin, Principles of Mathematical Analysis - 3rd Edition
 |             |                               | Copson, Metric Spaces
 | MATH 131BH  | Honors Real Analysis          | (Same as above)
-| MATH 13C	  | Topics in Real Analysis       | Stein and Shakarchi, Real Analysis
+| MATH 132C	  | Topics in Real Analysis       | Stein and Shakarchi, Real Analysis
 | MATH 132H   | Honors Complex Analysis       | Marshall, Complex Analysis
 | MATH 156	  | Machine Learning			  | Bishop, Pattern Recognition and Machine Learning
 | MATH 164	  | Optimization				  | Chang, An Introduction to Optimization
