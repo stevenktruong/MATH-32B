@@ -17,3 +17,4 @@ This repo contains my math homework for various math classes at UCLA. Most of th
 | MATH 132H   | Honors Complex Analysis       | Marshall, Complex Analysis
 | MATH 156	  | Machine Learning			  | Bishop, Pattern Recognition and Machine Learning
 | MATH 164	  | Optimization				  | Chang, An Introduction to Optimization
+| MATH 170A   | Probability Theory            | Bertsekas, Introduction to Probability - 2nd Edition

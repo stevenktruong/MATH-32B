@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, mathtools, tikz, enumitem, fancyhdr, mleftright, wrapfig, scrextend}
+\usetikzlibrary{calc}
+\usepackage[margin = 1in]{geometry}
+
+\def\class{MATH 170A}
+\def\discussion{3A}
+\def\header{Homework 2}
+\def\first{Steven}
+\def\last{804 790 042 \quad Truong}
+
+\fancypagestyle{first}
+{
+	\fancyhf{}
+	\setlength{\headsep}{\baselineskip}
+	\lhead{\class{} - Section \discussion}
+	\chead{\header}
+	\rhead{\last, \first}
+	\cfoot{\thepage}
+}
+
+\thispagestyle{first}
+
+%%%%%%%%%%%%Commands%%%%%%%%%%%%
+\newcommand{\diff}[1]{\mathrm{d}#1}    % Upright differential
+\newcommand{\qed}{\hfill$\blacksquare$}
+\renewcommand{\complement}{\mathsf{c}}
+\DeclarePairedDelimiter{\paren}{(}{)}
+\DeclarePairedDelimiter{\brac}{[}{]}
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\DeclarePairedDelimiter{\norm}{|}{|}
+\DeclareMathOperator{\Var}{Var}
+\newcommand{\zerospace}
+{
+	\setlength{\abovedisplayskip}{0pt}
+	\setlength{\belowdisplayskip}{0pt}
+	\setlength{\abovedisplayshortskip}{0pt}
+	\setlength{\belowdisplayshortskip}{0pt}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%Environments%%%%%%%%%%
+\newenvironment{problem}[1]    % Problem environment
+{
+	\begin{enumerate}[leftmargin = 0in]
+		\item[\bfseries{#1}]
+}
+{	\end{enumerate}
+}
+\newenvironment{multipart}
+{
+	\begin{enumerate}[leftmargin = *, align = left, label = {\alph*.}, topsep = 0pt]
+}	
+{
+	\end{enumerate}
+}
+\newenvironment{proofcase}[1]
+{
+	\par
+	#1
+	\begin{addmargin}[1em]{0em}
+}
+{	
+	\end{addmargin}
+}
+%%%%
+\newenvironment{solution}    % Solution environment
+{
+	\begin{enumerate}[leftmargin = 0in]
+		\item[\bfseries{Solution}]
+}
+{
+	\end{enumerate}
+}
+%%%%
+\newenvironment{nospaceflalign*}    % No extra vertical space before flalign* environment
+{
+	\setlength{\abovedisplayskip}{-\baselineskip}
+	\csname flalign*\endcsname
+}
+{
+	\csname endflalign*\endcsname
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%Homework%%%%%%%%%%%%%
+\begin{document}
+
+	\begin{problem}{3}
+		Recall Problem 5 from Problem Set 2: A burglar found your keychain with $n$ keys and he is trying to find one of the two keys which open your house door (whenever he tries a wrong key he discards it). Find the expectation and the variance of the number of tries he has to do to find a key which opens the door. Simplify your answers, they should be closed expressions, not summations. \textit{Hint: you will need to know some formulas for the sum of the first n integers, etc, you can look these up and simply state them.}
+	\end{problem}
+	
+	\begin{solution}
+		Let $A_i$ denote the event that the burglar opens the door on the $i$-th try. We wish to find $P\paren{A_k} = P\paren{A_1^\complement \cap A_2^\complement \cap \ldots \cap A_{k-1}^\complement \cap A_k}$. By the multiplication rule, we have
+		\begin{align*}
+			P\paren{A_k} &= P\paren{A_1^\complement \cap A_2^\complement \cap \ldots \cap A_{k-1}^\complement \cap A_k} \\
+			&= \paren[\bigg]{\frac{n - 2}{n}} \paren[\bigg]{\frac{\paren{n - 1} - 2}{n - 1}} \paren[\bigg]{\frac{\paren{n - 2} - 2}{n - 2}} \paren[\bigg]{\frac{\paren{n - 3} - 2}{n - 3}} \cdots \paren[\bigg]{\frac{\paren{n - \paren{k - 2}} - 2}{n - \paren{k - 2}}} \paren[\bigg]{\frac{2}{n - \paren{k - 1}}} \\
+			&= \paren[\bigg]{\frac{n - 2}{n}} \paren[\bigg]{\frac{n - 3}{n - 1}} \paren[\bigg]{\frac{n - 4}{n - 2}} \paren[\bigg]{\frac{n - 5}{n - 3}} \cdots \paren[\bigg]{\frac{n - k }{n - k + 2}} \paren[\bigg]{\frac{2}{n - k + 1}} \\
+			&= \frac{2\paren{n - k}}{n\paren{n - 1}}
+		\end{align*}
+		Let the random variable $X$ denote the number of tries it takes before finding a correct key. Then our probability mass function is $p_X\paren{k} = \frac{2\paren{n - k}}{n\paren{n - 1}}$, with $k \in \set{1, 2, 3, \ldots, n - 1}$. Thus,
+		\begin{equation*}
+			\begin{aligned}[c]
+				\mathbb{E}\paren{X} &= \sum_{k = 1}^{n-1} kp_X\paren{k} \\
+				&= \sum_{k = 1}^{n-1} k\frac{2\paren{n - k}}{n\paren{n - 1}} \\
+				&= \frac{2}{n\paren{n - 1}} \sum_{k = 1}^{n-1} k\paren{n - k} \\
+				&= \frac{2}{n\paren{n - 1}} \brac[\Bigg]{\; n\sum_{k = 1}^{n-1} k - \sum_{k = 1}^{n-1} k^2} \\
+				&= \frac{2}{n\paren{n - 1}} \brac[\bigg]{n\frac{\paren{n - 1}n}{2} - \frac{\paren{n - 1}n\paren{2n - 1}}{6}} \\
+				&= n - \frac{2n - 1}{3} = \boxed{\frac{n + 1}{3}}
+			\end{aligned}
+			\qquad
+			\begin{aligned}[c]
+				\mathbb{E}\paren{X^2} &= \sum_{k = 1}^{n-1} k^2p_X\paren{k} \\
+				&= \sum_{k = 1}^{n-1} k^2\frac{2\paren{n - k}}{n\paren{n - 1}} \\
+				&= \frac{2}{n\paren{n - 1}} \sum_{k = 1}^{n-1} k^2\paren{n - k} \\
+				&= \frac{2}{n\paren{n - 1}} \brac[\Bigg]{\; n\sum_{k = 1}^{n-1} k^2 - \sum_{k = 1}^{n-1} k^3} \\
+				&= \frac{2}{n\paren{n - 1}} \brac[\bigg]{n\frac{\paren{n - 1}n\paren{2n - 1}}{6} - \frac{\paren{n - 1}^2n^2}{4}} \\
+				&= n\frac{2n - 1}{3} - \frac{\paren{n - 1}n}{2} = \frac{n\paren{n + 1}}{6}
+			\end{aligned}
+		\end{equation*}
+		Thus, $\displaystyle \Var\paren{X} = \mathbb{E}\paren{X^2} - \paren{\mathbb{E}\paren{X}}^2 = \frac{n\paren{n + 1}}{6} - \paren[\bigg]{\frac{n + 1}{3}}^2 = \boxed{\frac{\paren{n + 1}\paren{n - 2}}{18}}$ .
+	\end{solution}
+	
+\hrule %%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{problem}{4}
+		Every hour, a clock tower rings either once or twice. Once with probability $\frac{1}{3}$ and twice with probability $\frac{2}{3}$. If you're listening the clock for $n$ hours (you hear the bell ringing on $n$ occasions) let $X$ be the number of times you heard the bell ring. Find the expectation and the variance of $X$.
+	\end{problem}
+
+	\begin{solution}
+		\begin{align*}
+			p_X\paren{n} &= \paren[\bigg]{\frac{1}{3}}^n \\
+			p_X\paren{n + 1} &= \binom{n}{1}\paren[\bigg]{\frac{1}{3}}^{n-1}\paren[\bigg]{\frac{2}{3}}^1 \\
+			p_X\paren{n + 2} &= \binom{n}{2}\paren[\bigg]{\frac{1}{3}}^{n-2}\paren[\bigg]{\frac{2}{3}}^2 \\
+			p_X\paren{n + k} &= \binom{n}{k}\paren[\bigg]{\frac{1}{3}}^{n-k}\paren[\bigg]{\frac{2}{3}}^k
+		\end{align*}
+		with $k \in \set{0, 1, \ldots, n}$. We have a binomial distribution, but with a linear transformation applied (a translation). If we let $Y$ be a binomial random variable with $p = \frac{2}{3}$ and range $\set{0, 1, \ldots, n}$, then $X = Y + n$. Thus,
+		\begin{align*}
+			\mathbb{E}\paren{X} &= \mathbb{E}\paren{Y + n} = \mathbb{E}\paren{Y} + n = n\frac{2}{3} + n = \boxed{\frac{5n}{3}} \\
+			\Var\paren{X} &= \Var{Y + n} = \Var{Y} = n \cdot \frac{2}{3} \cdot \frac{1}{3} = \boxed{\frac{2n}{9}}
+		\end{align*}
+	\end{solution}
+	
+\end{document}

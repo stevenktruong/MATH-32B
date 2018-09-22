@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, mathtools, tikz, enumitem, fancyhdr, mleftright, wrapfig, scrextend}
+\usetikzlibrary{calc}
+\usepackage[margin = 1in]{geometry}
+
+\def\class{MATH 170A}
+\def\discussion{3A}
+\def\header{Homework 3}
+\def\first{Steven}
+\def\last{804 790 042 \quad Truong}
+
+\fancypagestyle{first}
+{
+	\fancyhf{}
+	\setlength{\headsep}{\baselineskip}
+	\lhead{\class{} - Section \discussion}
+	\chead{\header}
+	\rhead{\last, \first}
+	\cfoot{\thepage}
+}
+
+\thispagestyle{first}
+
+%%%%%%%%%%%%Commands%%%%%%%%%%%%
+\newcommand{\diff}[1]{\mathrm{d}#1}    % Upright differential
+\newcommand{\qed}{\hfill$\blacksquare$}
+\newcommand{\prob}[1]{\mathbb{P}\paren{ #1 }}
+\renewcommand{\complement}{\mathsf{c}}
+\DeclarePairedDelimiter{\paren}{(}{)}
+\DeclarePairedDelimiter{\brac}{[}{]}
+\DeclarePairedDelimiter{\set}{\{}{\}}
+\DeclarePairedDelimiter{\norm}{|}{|}
+\DeclareMathOperator{\Var}{Var}
+\newcommand{\zerospace}
+{
+	\setlength{\abovedisplayskip}{0pt}
+	\setlength{\belowdisplayskip}{0pt}
+	\setlength{\abovedisplayshortskip}{0pt}
+	\setlength{\belowdisplayshortskip}{0pt}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%Environments%%%%%%%%%%
+\newenvironment{problem}[1]    % Problem environment
+{
+	\begin{enumerate}[leftmargin = 0in]
+		\item[\bfseries{#1}]
+}
+{	\end{enumerate}
+}
+\newenvironment{multipart}
+{
+	\begin{enumerate}[leftmargin = *, align = left, label = {\alph*.}, topsep = 0pt]
+}	
+{
+	\end{enumerate}
+}
+\newenvironment{proofcase}[1]
+{
+	\par
+	#1
+	\begin{addmargin}[1em]{0em}
+}
+{	
+	\end{addmargin}
+}
+%%%%
+\newenvironment{solution}    % Solution environment
+{
+	\begin{enumerate}[leftmargin = 0in]
+		\item[\bfseries{Solution}]
+}
+{
+	\end{enumerate}
+}
+%%%%
+\newenvironment{nospaceflalign*}    % No extra vertical space before flalign* environment
+{
+	\setlength{\abovedisplayskip}{-\baselineskip}
+	\csname flalign*\endcsname
+}
+{
+	\csname endflalign*\endcsname
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%Homework%%%%%%%%%%%%%
+\begin{document}
+
+	\begin{problem}{8}
+		A signal of amplitude $s = 2$ is transmitted from a satellite but is corrupted by noise, and the received signal is $X = s + W$, where $W$ is noise. When the weather is good, $W$ is normal with zero mean and variance 1. When the weather is bad, $W$ is normal with zero mean and variance 4. Good and bad weather are equally likely. In the absence of any weather information:
+		\begin{multipart}
+			\item Calculate the PDF of X.
+			\item Calculate the probability that X is between 1 and 3.
+		\end{multipart}
+	\end{problem}
+	
+	\begin{solution}
+		\item Let $F_X\paren{t}$ be the CDF of $X$, $W_g \sim \mathcal{N}\paren{0, 1}$, and $W_b \sim \mathcal{N}\paren{0, 4}$. Then
+			\begin{align*}
+				F_X\paren{t} = \mathbb{P}\paren{X \leq t} &= \prob{X \leq t \mid \text{weather is good}}\prob{\text{weather is good}} + \prob{X \leq t \mid \text{weather is bad}}\prob{\text{weather is bad}} \\
+				&= \frac{1}{2}\prob{W_g \leq t - s} + \frac{1}{2}\prob{W_b \leq t - s} \\
+				&= \frac{1}{2}\brac[\bigg]{\int_{-\infty}^{t - 2} \frac{1}{\sqrt{2\pi}}\exp\paren[\bigg]{-\frac{u^2}{2}} \,\diff{u} + \int_{-\infty}^{t - 2} \frac{1}{\sqrt{8\pi}}\exp\paren[\bigg]{-\frac{u^2}{8}} \,\diff{u}} \\
+				f_X\paren{t} &= \frac{\diff}{\diff{t}} F_X = \frac{1}{2}\paren[\bigg]{\frac{1}{\sqrt{2\pi}}\exp\paren[\bigg]{-\frac{\paren{t - 2}^2}{2}} + \frac{1}{\sqrt{8\pi}}\exp\paren[\bigg]{-\frac{\paren{t - 2}^2}{8}}}
+			\end{align*}
+		\item
+			\begin{nospaceflalign*}
+ 				F_X\paren{3} - F_X\paren{1} = \frac{1}{2}\brac[\bigg]{\int_{-1}^{1} \frac{1}{\sqrt{2\pi}}\exp\paren[\bigg]{-\frac{u^2}{2}} \,\diff{u} + \int_{-1}^{1} \frac{1}{\sqrt{8\pi}}\exp\paren[\bigg]{-\frac{u^2}{8}} \,\diff{u}} \approx 0.532807 &&
+ 			\end{nospaceflalign*}
+
+	\end{solution}
+	
+\hrule %%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\begin{problem}{5}
+		Let $A$ be the set of all pairs $\paren{x, y}$ which satisfy each of the conditions \[ x \geq 0, y \geq 0, 1 \leq x + y \leq 2. \] Let the random variables $X$ and $Y$ be jointly continuous with the joint PDF \[ f_{X,Y}\paren{x, y} = \begin{cases} C\paren{x + y}, & \text{if } \paren{x, y} \in A \\ 0, & \text{otherwise.} \end{cases} \] Find the value of the constant $C$. Find the marginal PDFs and CDFs.
+	\end{problem}
+	
+	\begin{solution}
+		\begin{nospaceflalign*}
+			\iint_A f_{X,Y}\paren{x, y} \, \diff{A} &= \int_0^1 \int_{1 - x}^{2 - x} C\paren{x + y} \,\diff{y}\,\diff{x} + \int_1^2 \int_0^{2 - x} C\paren{x + y} \,\diff{y}\,\diff{x} = \frac{7}{3}C = 1 \implies C = \frac{3}{7} \\
+			f_X &= 	\begin{cases}
+ 						\displaystyle\int_{1 - x}^{2 - x} \frac{3}{7}\paren{x + y} \,\diff{y} = \frac{9}{14}, & 0 \leq x \leq 1 \\
+ 						\displaystyle\int_{0}^{2 - x} \frac{3}{7}\paren{x + y} \,\diff{y} = \frac{3}{14}\paren[\big]{4 - x^2}, & 1 \leq x \leq 2 \\
+ 						0, & \text{otherwise}
+				 	\end{cases} \\
+			F_X &= 	\begin{cases}
+ 						0, & x < 0 \\
+ 						\displaystyle\frac{9}{14}x & 0 \leq x \leq 1 \\
+ 						\displaystyle\frac{9}{14} + \frac{3}{14}\paren[\bigg]{\frac{-x^3}{3} + 4x - \frac{11}{3}} & 1 \leq x \leq 2 \\
+ 						1 & x > 2
+				 	\end{cases}
+		\end{nospaceflalign*}
+		By symmetry, $f_Y = f_X$, but with $x$ replaced with $y$. Similarly, $F_Y = F_X$.
+	\end{solution}
+	
+\end{document}
