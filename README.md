@@ -30,6 +30,5 @@ This repo contains my math homework for various math classes at UCLA for others 
 | MATH 246A   | Complex Analysis				            | Ahlfors, Complex Analysis - 3rd Edition
 | MATH 246B   | Complex Analysis				            | (Same as above)
 | MATH 246C   | Complex Analysis				            | Professor's notes
-| MATH 269A   | Advanced Numerical Analysis         | Ascher, U. M. and Petzold, Computer Methods for Ordinary Differential Equations and
-Differential-Algebraic Equations
+| MATH 269A   | Advanced Numerical Analysis         | Ascher, U. M. and Petzold, Computer Methods for Ordinary Differential Equations and Differential-Algebraic Equations
 | MATH 275A   | Probability Theory                  | Varadhan, Probability Theory
