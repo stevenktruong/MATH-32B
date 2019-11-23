@@ -24,8 +24,12 @@ This repo contains my math homework for various math classes at UCLA for others 
 | MATH 156	  | Machine Learning			              | Bishop, Pattern Recognition and Machine Learning
 | MATH 164	  | Optimization				                | Chang, An Introduction to Optimization
 | MATH 170A   | Probability Theory                  | Bertsekas, Introduction to Probability - 2nd Edition
+| MATH 225A   | Differential Topology               | Professor's notes
 | MATH 245B   | Real Analysis				                | Folland, Real Analysis, Modern Techniques and Their Applications - 2nd Edition
 | MATH 245C   | Real Analysis				                | (Same as above)
 | MATH 246A   | Complex Analysis				            | Ahlfors, Complex Analysis - 3rd Edition
 | MATH 246B   | Complex Analysis				            | (Same as above)
-| MATH 246C   | Complex Analysis				            | N/A
+| MATH 246C   | Complex Analysis				            | Professor's notes
+| MATH 269A   | Advanced Numerical Analysis         | Ascher, U. M. and Petzold, Computer Methods for Ordinary Differential Equations and
+Differential-Algebraic Equations
+| MATH 275A   | Probability Theory                  | Varadhan, Probability Theory
